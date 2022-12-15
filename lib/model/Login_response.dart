@@ -13,14 +13,14 @@ String loginResponseToJson(List<LoginResponse> data) =>
 
 class LoginResponse {
   LoginResponse({
-    this.userId,
+    required this.userId,
     this.roleId,
-    this.status,
+    required this.status,
   });
 
-  int? userId;
-  int? roleId;
-  bool? status;
+  final int userId;
+  final int? roleId;
+  final bool status;
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
         userId: json["UserId"],

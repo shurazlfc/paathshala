@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:pathashala/model/profile_model.dart';
-import 'package:pathashala/model/school_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:pathashala/services/end_points.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,7 +10,7 @@ class URLS {}
 class ProfileServices {
   Future<ProfileModel?> getProfileData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String userId = prefs.getString("userid") ?? "";
+    String userId = prefs.getString("userId") ?? "";
     const String username = 'PaathshalaMobApp';
     const String password = 'P@@thSh@l@7474';
 
@@ -31,8 +30,6 @@ class ProfileServices {
 
         ProfileModel item = ProfileModel.fromJson(bodydata);
         return item;
-        //11391 //
-        //8f*MbC7+//
       }
       return null;
     } catch (e) {
@@ -41,16 +38,3 @@ class ProfileServices {
     }
   }
 }
-
-
-//     final response = await http.get('${URLS.base_url}/UserInfo/v1/GetUserInfo',
-//         headers: headers);
-
-//     if (response.statusCode == 200) {
-//       final jsonResponse = json.decode(response.body);
-//       return new UserInfo.fromJson(jsonResponse);
-//     } else {
-//       throw Exception('Failed to load data!');
-//     }
-//   }
-// }

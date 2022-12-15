@@ -6,6 +6,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:pathashala/Homepage.dart';
 import 'package:pathashala/profile_page.dart';
 import 'package:pathashala/school_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -48,6 +49,15 @@ class _DashboardPageState extends State<DashboardPage> {
                           ListTile(
                             leading: Icon(Icons.person),
                             title: Text("Help"),
+                          ),
+                          ListTile(
+                            leading: Icon(Icons.person),
+                            title: Text("Help"),
+                            onTap: () async {
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setString("userId", "");
+                            },
                           ),
                         ],
                       );
