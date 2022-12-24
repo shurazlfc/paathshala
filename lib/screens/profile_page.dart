@@ -1,38 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:pathashala/services/school_services.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-import 'model/school_model.dart';
+import 'package:pathashala/model/profile_model.dart';
+import 'package:pathashala/services/profile_services.dart';
 
-class SchoolPage extends StatefulWidget {
-  const SchoolPage({super.key});
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
 
   @override
-  State<SchoolPage> createState() => _SchoolPageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _SchoolPageState extends State<SchoolPage> {
-  Future<void> _launchURL(String url) async {
-    final Uri uri = Uri(scheme: "https", host: url);
-    if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-      throw "Can't lauch url";
-    }
-  }
-
+class _ProfilePageState extends State<ProfilePage> {
   bool isloaded = false;
-  List<SchoolModel> schoolinfoData = [];
+  ProfileModel? profileinfodata;
   @override
   void initState() {
     super.initState();
-    getSchoolData();
+    getProfileData();
   }
 
-  getSchoolData() async {
-    await SchoolInfoServices().getSchoolData().then((value) {
+  getProfileData() async {
+    await ProfileServices().getProfileData().then((value) {
       setState(() {
-        schoolinfoData = value;
+        profileinfodata = value;
         isloaded = true;
       });
     });
@@ -86,7 +76,7 @@ class _SchoolPageState extends State<SchoolPage> {
                       ])),
                   child: Center(
                     child: Text(
-                      schoolinfoData[0].schoolName.toString(),
+                      profileinfodata!.fatherName.toString(),
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
@@ -105,7 +95,7 @@ class _SchoolPageState extends State<SchoolPage> {
                       ])),
                   child: Center(
                     child: Text(
-                      schoolinfoData[0].address.toString(),
+                      profileinfodata!.mobileNumber.toString(),
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
@@ -124,7 +114,7 @@ class _SchoolPageState extends State<SchoolPage> {
                       ])),
                   child: Center(
                     child: Text(
-                      schoolinfoData[0].contactNumber.toString(),
+                      profileinfodata!.gender.toString(),
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
                     ),
@@ -143,39 +133,15 @@ class _SchoolPageState extends State<SchoolPage> {
                       ])),
                   child: Center(
                     child: Text(
-                      schoolinfoData[0].emailAddress.toString(),
+                      profileinfodata!.permanentAddress.toString(),
                       style: TextStyle(
                           color: Colors.white, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _launchURL("www.avn.edu.np");
-                  },
-                  child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        gradient: LinearGradient(colors: [
-                          Colors.red,
-                          Colors.purple,
-                        ])),
-                    child: Center(
-                      child: Text(
-                        schoolinfoData[0].website.toString(),
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      ),
                     ),
                   ),
                 ),
               ],
             )
-          : Center(child: CircularProgressIndicator()),
+          : Center(child: const CircularProgressIndicator()),
     );
   }
 }
@@ -186,7 +152,7 @@ class _SchoolPageState extends State<SchoolPage> {
       // body: isloaded
       //     ? Center(
       //         child: Column(
-      //           children: [Text(schoolinfoData[0].address.toString())],
+      //           children: [Text(profileinfodata[0].address.toString())],
       //         ),
       //       )
       //     : Center(child: CircularProgressIndicator()),

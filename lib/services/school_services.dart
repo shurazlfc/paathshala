@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:pathashala/model/school_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:pathashala/services/end_points.dart';
+import 'package:pathashala/constants/end_points.dart';
 
 class SchoolInfoServices {
   Future<List<SchoolModel>> getSchoolData() async {

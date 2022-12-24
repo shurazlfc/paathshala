@@ -1,8 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
-import 'package:pathashala/model/Login_response.dart';
-import 'package:pathashala/services/login_serviece.dart';
-import 'package:pathashala/services/profile_services.dart';
-import 'package:pathashala/ui.dart';
+import 'package:pathashala/model/login_response.dart';
+import 'package:pathashala/services/login_service.dart';
+
+import 'package:pathashala/screens/dashboard_screen.dart';
 
 class LoginScreenApi extends StatefulWidget {
   const LoginScreenApi({super.key});
@@ -15,40 +17,48 @@ class _LoginScreenApiState extends State<LoginScreenApi> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  @override
-  void initState() {
-    _emailController.value = TextEditingValue(text: "11391");
-    _passwordController.value = TextEditingValue(text: "8f*MbC7+");
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   _emailController.value = TextEditingValue(text: "11391");
+  //   _passwordController.value = TextEditingValue(text: "8f*MbC7+");
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      // appBar: AppBar(
+      //   centerTitle: true,
+      //   title: const Text("Paathshala"),
+      // ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.only(top: 50, right: 20, left: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Image.network("https://softlabinc.com/images/logo/logo.png"),
+              const SizedBox(
+                height: 50,
+              ),
               TextFormField(
                 controller: _emailController,
                 decoration: const InputDecoration(hintText: "Username"),
               ),
               const SizedBox(
-                height: 10,
+                height: 50,
               ),
               TextFormField(
+                obscureText: true,
                 controller: _passwordController,
                 decoration: const InputDecoration(hintText: "Password"),
               ),
               const SizedBox(
-                height: 40,
+                height: 50,
               ),
-              GestureDetector(
-                onTap: () async {
+              ElevatedButton(
+                onPressed: () async {
                   LoginResponse? loginData = await login(
                     email: _emailController.text,
                     password: _passwordController.text,
@@ -57,42 +67,25 @@ class _LoginScreenApiState extends State<LoginScreenApi> {
 
                   if (loginData!.userId > 0) {
                     if (loginData.status) {
+                      // ignore: use_build_context_synchronously
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DashboardPage()),
+                            builder: (context) => const DashboardPage()),
                       );
                     } else {
+                      // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Please renew your subscription")));
+                          content: Text(
+                              "Your user account is inactive . Please contact your school/college")));
                     }
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Something went wrong")));
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text(
+                            "Wrong Username or Password. Please do check your credientials")));
                   }
                 },
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  height: 40,
-                  child: const Text("Login "),
-                ),
-              ),
-              GestureDetector(
-                onTap: () async {
-                  await ProfileServices().getProfileData();
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => DashboardPage()),
-                  // );
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  height: 40,
-                  child: const Text("get USer Data "),
-                ),
+                child: const Text("Login"),
               ),
               const SizedBox(
                 height: 30,

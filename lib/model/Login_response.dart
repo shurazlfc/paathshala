@@ -1,6 +1,5 @@
-// To parse this JSON data, do
-//
-//     final loginResponse = loginResponseFromJson(jsonString);
+
+// ignore_for_file: file_names
 
 import 'dart:convert';
 
@@ -15,7 +14,7 @@ class LoginResponse {
   LoginResponse({
     required this.userId,
     this.roleId,
-    required this.status,
+    required this. status,
   });
 
   final int userId;

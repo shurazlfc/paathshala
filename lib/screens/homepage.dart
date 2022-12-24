@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:pathashala/card_item.dart';
-import 'package:pathashala/model/school_model.dart';
+
+import 'package:pathashala/screens/account_page.dart';
+import 'package:pathashala/screens/test_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,7 +16,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Card(
           child: GridView(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, mainAxisSpacing: 2, crossAxisSpacing: 2),
         children: [
           //1st item
@@ -29,12 +28,13 @@ class _HomePageState extends State<HomePage> {
               child: Center(
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                // ignore: prefer_const_literals_to_create_immutables
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.school,
                     size: 50,
                   ),
-                  Text(
+                  const Text(
                     "Online Class",
                     style: TextStyle(fontSize: 20),
                   )
@@ -51,33 +51,43 @@ class _HomePageState extends State<HomePage> {
               child: Center(
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                // ignore: prefer_const_literals_to_create_immutables
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.note,
                     size: 50,
                   ),
-                  Text("Exam Result", style: TextStyle(fontSize: 20))
+                  const Text("Exam Result", style: TextStyle(fontSize: 20))
                 ],
               )),
             ),
           ),
           //3rd item
-          Card(
-            elevation: 5,
-            child: SizedBox(
-              width: 200,
-              height: 80,
-              child: Center(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.account_balance,
-                    size: 50,
-                  ),
-                  Text("Accounts", style: TextStyle(fontSize: 20))
-                ],
-              )),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const TestPage()),
+              );
+            },
+            child: Card(
+              elevation: 5,
+              child: SizedBox(
+                width: 200,
+                height: 80,
+                child: Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  // ignore: prefer_const_literals_to_create_immutables
+                  children: [
+                    const Icon(
+                      Icons.account_balance,
+                      size: 50,
+                    ),
+                    const Text("Accounts", style: TextStyle(fontSize: 20))
+                  ],
+                )),
+              ),
             ),
           ),
           //4th item
@@ -89,12 +99,13 @@ class _HomePageState extends State<HomePage> {
               child: Center(
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                // ignore: prefer_const_literals_to_create_immutables
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.assignment,
                     size: 50,
                   ),
-                  Text("Assignments", style: TextStyle(fontSize: 20))
+                  const Text("Assignments", style: TextStyle(fontSize: 20))
                 ],
               )),
             ),
@@ -108,12 +119,13 @@ class _HomePageState extends State<HomePage> {
               child: Center(
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                // ignore: prefer_const_literals_to_create_immutables
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.pan_tool,
                     size: 50,
                   ),
-                  Text("Attendence", style: TextStyle(fontSize: 20))
+                  const Text("Attendence", style: TextStyle(fontSize: 20))
                 ],
               )),
             ),
@@ -127,12 +139,13 @@ class _HomePageState extends State<HomePage> {
               child: Center(
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                // ignore: prefer_const_literals_to_create_immutables
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.book,
                     size: 50,
                   ),
-                  Text("Library", style: TextStyle(fontSize: 20))
+                  const Text("Library", style: TextStyle(fontSize: 20))
                 ],
               )),
             ),

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:pathashala/model/profile_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:pathashala/services/end_points.dart';
+import 'package:pathashala/constants/end_points.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class URLS {}
@@ -25,10 +25,12 @@ class ProfileServices {
       var uri = Uri.parse(ApiEndPoints.fetchProfileInfo + userId);
       var response = await http.get(uri, headers: headers);
       if (response.statusCode == 200) {
-        var json = response.body;
-        var bodydata = jsonDecode(json);
+        var data = response.body;
+
+        var bodydata = jsonDecode(data);
 
         ProfileModel item = ProfileModel.fromJson(bodydata);
+        prefs.setString("studentId", item.studentId.toString());
         return item;
       }
       return null;

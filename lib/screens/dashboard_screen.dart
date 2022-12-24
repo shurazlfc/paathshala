@@ -1,11 +1,10 @@
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
 import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:pathashala/Homepage.dart';
-import 'package:pathashala/profile_page.dart';
-import 'package:pathashala/school_page.dart';
+
+import 'package:pathashala/screens/homepage.dart';
+import 'package:pathashala/screens/profile_page.dart';
+import 'package:pathashala/screens/school_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardPage extends StatefulWidget {

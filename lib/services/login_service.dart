@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:pathashala/model/Login_response.dart';
+import 'package:pathashala/model/login_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<LoginResponse?> login(
@@ -25,9 +25,8 @@ Future<LoginResponse?> login(
         login.add(LoginResponse.fromJson(d));
       }
 
-      prefs.setString("userId", login.first.userId.toString());
-
-      return login.first;
+      prefs.setString("userId", login[0].userId.toString()); //first
+      return login[0]; //first
     } else {}
   } catch (e) {
     rethrow;
