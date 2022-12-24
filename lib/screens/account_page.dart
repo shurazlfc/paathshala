@@ -1,13 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:developer';
 import 'dart:ui';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+
 import 'package:pathashala/model/account_model.dart';
-
 import 'package:pathashala/services/account_services.dart';
-
-
 
 class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
@@ -18,7 +18,10 @@ class AccountPage extends StatefulWidget {
 
 class _AccountPageState extends State<AccountPage> {
   int? total;
-  int? dueTotal;
+  double? dueTotal;
+  double _paidTotal = 0;
+  double _paidDue = 0;
+  List<double>? _dueTotal;
   int? paid;
   bool isloaded = false;
   List<AccountModel>? accountinfodata = [];
@@ -31,10 +34,36 @@ class _AccountPageState extends State<AccountPage> {
   getProfileData() async {
     var data = await AccountServices().getAccountData();
     setState(() {
-      
       accountinfodata = data;
       isloaded = true;
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    _getDueAmount();
+    super.didChangeDependencies();
+  }
+
+  Amount? _getDueAmount() {
+    double? _dueAmountt;
+    double? _paidAmount;
+
+    if (accountinfodata != null) {
+      accountinfodata!.forEach((e) {
+        if (e.receiptNumber == '0') {
+          _dueAmountt = _paidDue += e.amount!;
+        } else {
+          _paidAmount = _paidTotal += e.amount!;
+        }
+      });
+      return Amount(
+        dueAmount: _dueAmountt,
+        paidAmount: _paidAmount,
+      );
+    } else {
+      return null;
+    }
   }
 
   @override
@@ -45,29 +74,70 @@ class _AccountPageState extends State<AccountPage> {
       ),
       body: accountinfodata == null
           ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: accountinfodata!.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  child: Column(
-                    children: [
-                      Text(
-                          ' Fee Name :${accountinfodata![index].feeName.toString()}'),
-                      Text(accountinfodata![index].dateBS.toString()),
-                      Text(accountinfodata![index].monthName.toString()),
-                      Text(accountinfodata![index].amount.toString()),
-                    ],
+          : Column(
+              children: [
+                Text(
+                  _getDueAmount()!.dueAmount.toString(),
+                ),
+                Text(
+                  _getDueAmount()!.paidAmount.toString(),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: accountinfodata!.length,
+                    itemBuilder: (context, index) {
+                      if (accountinfodata?[index].receiptNumber != '0') {
+                        _paidTotal += accountinfodata?[index].amount as double;
+                        // paidTotal += data[index]['amount'];
+                      } else {
+                        _paidDue += accountinfodata?[index].amount as double;
+                        // dueTotal += data[index]['amount'];
+                      }
+
+                      accountinfodata!.forEach((e) {
+                        if (e.receiptNumber == '0') {
+                          _paidDue += e.amount!;
+                        } else {
+                          _paidTotal += e.amount!;
+                        }
+                      });
+                      log(_paidDue.toString());
+
+                      // accountinfodata!.where((element) {
+
+                      // });
+                      // accountinfodata?.forEach(
+                      //   (e) {
+                      //     if (e.receiptNumber == "0") {
+                      //       _dueTotal?.add(e.amount ?? 0);
+                      //     }
+                      //   },
+                      // );
+
+                      // log(_dueTotal.toString());
+
+                      return Card(
+                        child: Column(
+                          children: [
+                            Text(
+                                ' Fee Name :${accountinfodata![index].feeName.toString()}'),
+                            Text(accountinfodata![index].dateBS.toString()),
+                            Text(accountinfodata![index].monthName.toString()),
+                          ],
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
+                ),
+              ],
             ),
     );
   }
 }
-
-
-
-
 
 //  Column(
 //           children: [
@@ -116,33 +186,21 @@ class _AccountPageState extends State<AccountPage> {
 //               },
 //             )
 //           ],
-        
 
+// body: isloaded
+//     ? Center(
+//         child: Column(
+//           children: [Text(accountinfodata[0].address.toString())],
+//         ),
+//       )
+//     : Center(child: CircularProgressIndicator()),
 
+class Amount {
+  final double? dueAmount;
+  final double? paidAmount;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      // body: isloaded
-      //     ? Center(
-      //         child: Column(
-      //           children: [Text(accountinfodata[0].address.toString())],
-      //         ),
-      //       )
-      //     : Center(child: CircularProgressIndicator()),
-
+  Amount({
+    this.dueAmount,
+    this.paidAmount,
+  });
+}

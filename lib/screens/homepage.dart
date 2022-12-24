@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const TestPage()),
+                MaterialPageRoute(builder: (context) => const AccountPage()),
               );
             },
             child: Card(

@@ -4,7 +4,7 @@ class AccountModel {
   String? dateBS;
   String? monthName;
   String? receiptNumber;
-  double? amount;
+  num? amount;
   bool? feeStatus;
 
   AccountModel(

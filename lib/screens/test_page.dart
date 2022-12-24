@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -56,32 +57,34 @@ class _TestPageState extends State<TestPage> {
     var response = await http.get(uri, headers: headers);
 
     if (response.statusCode == 200) {
+      
       var json = response.body;
       var bodydata = jsonDecode(json);
-      var data = bodydata;
+      final newList = accountinfodata?.addAll(bodydata) as List<AccountModel>;
+      log(newList.toString());
+      return newList;
 
-      List<AccountModel> list = [];
-      final items = data.ad;
+      // List<AccountModel> list = [];
+      // final items = data.ad;
 
-      for (var item in items) {
-        list.add(AccountModel.fromJson(item));
-        final receiptNumber = item['ReceiptNumber'];
-        double amount = item['Amount'];
+      // for (var item in items) {
+      //   list.add(AccountModel.fromJson(item));
+      //   final receiptNumber = item['ReceiptNumber'];
+      //   double amount = item['Amount'];
 
-        if (receiptNumber > 0) {
-          setState(() {
-            paidTotal += amount as int;
-          });
-        } else {
-          setState(() {
-            dueTotal += amount as int;
-          });
-        }
+      //   if (receiptNumber > 0) {
+      //     setState(() {
+      //       paidTotal += amount as int;
+      //     });
+      //   } else {
+      //     setState(() {
+      //       dueTotal += amount as int;
+      //     });
+      //   }
 
-        return list;
-      }
+      //   return list;
+      // }
 
-      return [];
     } else {
       throw Exception('Failed to load data');
     }
